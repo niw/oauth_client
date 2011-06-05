@@ -6,5 +6,5 @@ group :development do
 end
 
 group :test do
-  gem "mocha", "0.9.8"
+  gem "mocha"
 end

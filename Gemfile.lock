@@ -13,6 +13,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  mocha (= 0.9.8)
+  mocha
   rake
   typhoeus
