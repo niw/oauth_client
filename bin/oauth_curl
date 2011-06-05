@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../../lib", __FILE__)
+
+require "oauth_client"
+require "yaml"
+
+config_path = ARGV.shift
+unless config_path
+  puts "Usage: #{$0} config_path url [params] [curl options]"
+  exit 1
+end
+
+url = ARGV.shift
+params = ARGV.shift
+curl_options = []
+if /^-/ === params
+  curl_options << params
+  params = nil
+end
+curl_options.concat(ARGV)
+method = params ? "POST" : "GET"
+
+config = YAML.load(File.read(File.expand_path(config_path)))
+
+consumer = OAuthClient::Token.new(config[:consumer_key], config[:consumer_secret])
+access_token = if config[:access_token] && config[:access_secret]
+  OAuthClient::Token.new(config[:access_token], config[:access_secret])
+end
+
+request = OAuthClient::Request.create_from_uri(method, URI.parse(url), params)
+sign = OAuthClient::Signature.new(request, consumer, access_token)
+
+command = ["curl -v -H 'Authorization: #{sign.auth_header}' -X #{request.method}"]
+command << "-d '#{params}'" if request.method == "POST" && params
+command << url
+command.concat(curl_options)
+
+command_string = command.join(" ")
+puts "exec: #{command_string}"
+
+exec command_string
