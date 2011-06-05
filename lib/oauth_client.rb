@@ -229,10 +229,10 @@ module OAuthClient
     def base64_encode(data)
       [data].pack("m").gsub(/\n/, '')
     end
-    # OAuth RFC document is using a word 'encode' instead of escape.
 
     UNRESERVED_CHARACTERS = /[^[:alnum:]\-._~]/
 
+    # OAuth RFC document is using a word 'encode' instead of escape.
     def encode(value)
       URI.escape(value.to_s, UNRESERVED_CHARACTERS)
     end
