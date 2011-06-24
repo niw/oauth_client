@@ -12,6 +12,10 @@ unless config_path
 end
 
 url = ARGV.shift
+if /^(OPTIONS|GET|HEAD|POST|PUT|DELETE|TRACE|CONNECT)$/ === url
+  method = url
+  url = ARGV.shift
+end
 params = ARGV.shift
 curl_options = []
 if /^-/ === params
@@ -19,7 +23,7 @@ if /^-/ === params
   params = nil
 end
 curl_options.concat(ARGV)
-method = params ? "POST" : "GET"
+method = "POST" if params
 
 config = YAML.load(File.read(File.expand_path(config_path)))
 
@@ -32,7 +36,7 @@ request = OAuthClient::Request.create_from_uri(method, URI.parse(url), params)
 sign = OAuthClient::Signature.new(request, consumer, access_token)
 
 command = ["curl -v -H 'Authorization: #{sign.auth_header}' -X #{request.method}"]
-command << "-d '#{params}'" if request.method == "POST" && params
+command << "-d '#{params}'" if params
 command << url
 command.concat(curl_options)
 
