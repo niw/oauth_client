@@ -37,7 +37,7 @@ sign = OAuthClient::Signature.new(request, consumer, access_token)
 
 command = ["curl -v -H 'Authorization: #{sign.auth_header}' -X #{request.method}"]
 command << "-d '#{params}'" if params
-command << url
+command << "'#{url}'"
 command.concat(curl_options)
 
 command_string = command.join(" ")
