@@ -230,7 +230,7 @@ module OAuthClient
       [data].pack("m").gsub(/\n/, '')
     end
 
-    UNRESERVED_CHARACTERS = /[^[:alnum:]\-._~]/
+    UNRESERVED_CHARACTERS = /[^0-9a-zA-Z\-._~]/
 
     # OAuth RFC document is using a word 'encode' instead of escape.
     def encode(value)
