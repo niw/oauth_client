@@ -180,7 +180,7 @@ module OAuthClient
     private
 
     def request_params
-      @request_params ||= @request.params.to_hash.merge(oauth_params)
+      @request_params ||= @request.params.merge(oauth_params).to_hash
     end
 
     def oauth_params
@@ -224,7 +224,7 @@ module OAuthClient
 
       request_params.each do |key, values|
         key = encode(key)
-        values = Array(values).map{|value| encode(value)}
+        values = values.map{|value| encode(value)}
         encoded_params[key] = values
       end
 
