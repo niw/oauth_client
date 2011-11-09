@@ -35,10 +35,11 @@ module OAuthClient
 
         params.each do |key, value|
           key = key.to_sym
+          value = Array === value ? value : [value]
           if @params[key]
-            @params[key] << value
+            @params[key].concat(value)
           else
-            @params[key] = Array(value)
+            @params[key] = value
           end
         end
       end
