@@ -47,6 +47,12 @@ module OAuthClient
       self
     end
 
+    alias :merge! :update
+
+    def merge(*params_list)
+      self.dup.update(*params_list)
+    end
+
     def to_hash
       @params.dup
     end
