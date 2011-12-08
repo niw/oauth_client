@@ -1,10 +1,4 @@
 source :rubygems
 
-group :development do
-  gem "rake"
-  gem "typhoeus"
-end
-
-group :test do
-  gem "mocha"
-end
+# Specify your gem's dependencies in oauth_client.gemspec
+gemspec
