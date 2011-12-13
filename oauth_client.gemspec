@@ -11,11 +11,12 @@ Gem::Specification.new do |s|
   s.summary     =
   s.description = "A small OAuth client library."
 
-  s.rubyforge_project = "oauth_client"
-
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.test_files       = `git ls-files -- test/*`.split("\n")
+  s.extra_rdoc_files = `git ls-files -- README*`.split("\n")
+  s.files            = `git ls-files -- {bin,lib}/*`.split("\n") +
+                       s.test_files +
+                       s.extra_rdoc_files
+  s.executables      = `git ls-files -- bin/*`.split("\n").map{|f| File.basename(f)}
   s.require_paths = ["lib"]
 
   s.add_development_dependency "rake"
